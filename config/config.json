@@ -1,0 +1,9 @@
+{
+  "appConfig": {
+    "units": "metric"
+  },
+  "externalAPIConfig": {
+    "apiKey": "cbf27b5bdf7f0bc0f9fb5e75bf9c783c",
+    "baseURL": "http://api.openweathermap.org/data/2.5/"
+  }
+}
