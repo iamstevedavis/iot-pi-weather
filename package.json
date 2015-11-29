@@ -1,19 +1,18 @@
 {
-  "name": "WeatherService",
-  "version": "0.1.0",
-  "description": "A simple weather service.",
-  "main": "app.js",
   "author": "Stephen Davis",
   "dependencies": {
-    "bluebird": "^2.9.30",
-    "bunyan": "^1.4.0",
-    "nconf": "0.6.9",
-    "restify": "^3.0.0",
-    "superagent-bluebird-promise": "^2.1.0"
+    "bunyan": "*",
+    "nconf": "*",
+    "restify": "*",
+    "superagent-bluebird-promise": "*"
   },
+  "description": "A simple weather service.",
   "license": "MIT",
+  "main": "app.js",
+  "name": "WeatherService",
   "repository": {
     "type": "git",
-    "url": "asd"
-  }
+    "url": "iamstevedavis.ca"
+  },
+  "version": "0.1.0"
 }
