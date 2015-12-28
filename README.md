@@ -38,12 +38,25 @@ __Example__
 __Response__
 
     {
-      "city": {...},
-      "cod": "200",
-      "message": 0.0036,
-      "cnt": 40,
-      "list": [{...}]
-    }
+    "city": {
+      "cityId": 5913695,
+      "cityName": "Cambridge",
+      "cityCountryCode": "CA"
+    },
+    "weatherData": [
+      {
+        "time": "2015-12-29 00:00:00",
+        "temp": -5.28,
+        "tempHigh": -3.44,
+        "tempLow": -5.28,
+        "humidity": 78,
+        "description": "overcast clouds",
+        "weatherIcon": "http://api.openweathermap.org/img/w/04n.png"
+      },
+      {<--->},
+      {<--->},
+      {<--->}
+    ]
 
 #### GET /weather/v1/find // Get the forecast for a city based on a textual search of that city.
 
@@ -58,8 +71,15 @@ __Example__
 __Response__
 
     {
-      "cod": "200",
-      "message": 0.0036,
-      "cnt": 40,
-      "list": [{...}]
+      "weatherData": [
+        {
+          "locationId": 5913695,
+          "temp": -5.29,
+          "tempHigh": -4,
+          "tempLow": -7,
+          "humidity": 85,
+          "description": "snow",
+          "weatherIcon": "http://api.openweathermap.org/img/w/13d.png"
+        }
+      ]
     }
