@@ -10,10 +10,11 @@ nconf.file(path.resolve(__dirname, '../config/config.json'));
 
 WeatherUtils.apiKey = nconf.get('externalAPIConfig:apiKey');
 WeatherUtils.baseURL = nconf.get('externalAPIConfig:baseURL');
+WeatherUtils.apiPath = nconf.get('externalAPIConfig:apiPath');
 WeatherUtils.units = nconf.get('appConfig:units') || 'metric';
 
 WeatherUtils.getWeatherByLocationId = function getWeatherById(locationId) {
-  var url = this.baseURL + 'forecast/city';
+  var url = this.baseURL + this.apiPath + 'forecast/city';
 
   return request.get(url)
     .query({ id: locationId })
@@ -23,7 +24,7 @@ WeatherUtils.getWeatherByLocationId = function getWeatherById(locationId) {
 };
 
 WeatherUtils.getWeatherByLocationSearch = function getWeatherBySearch(query) {
-  var url = this.baseURL + 'find';
+  var url = this.baseURL + this.apiPath + 'find';
 
   return request.get(url)
     .query({ q: query })

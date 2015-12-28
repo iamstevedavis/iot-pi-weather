@@ -5,6 +5,7 @@ var restify = require('restify');
 
 var pJson = require('./package.json');
 var weatherUtils = require('./utils/weatherUtils');
+var weatherPresentation = require('./utils/weatherPresentation');
 
 /*****************************
  * Initialize Restify Server *
@@ -44,9 +45,14 @@ server.get('/weather/v1/forecast', function getWeatherByLocationId(req, res, nex
   }
 
   return weatherUtils.getWeatherByLocationId(locationId)
-    .then(function _success(resp) {
+    .then(function _presentWeatherData(resp) {
       var response = resp && resp.body;
-      res.send(200, response);
+      return weatherPresentation.presentWeatherWithCity(response);
+    })
+    .then(function _returnPresentedWeatherData(presentedWeatherData) {
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+      res.setHeader('content-type', 'application/json');
+      res.send(200, presentedWeatherData);
       return next();
     })
     .catch(function _failed(error) {
@@ -68,9 +74,15 @@ server.get('/weather/v1/find', function getWeatherByLocationSearch(req, res, nex
   }
 
   return weatherUtils.getWeatherByLocationSearch(locationQuery)
-    .then(function _success(resp) {
+    .then(function _presentWeatherData(resp) {
       var response = resp && resp.body;
-      res.send(200, response);
+      var weatherList = response && response.list;
+      return weatherPresentation.presentWeatherList(weatherList);
+    })
+    .then(function _returnPresentedWeatherData(presentedWeatherData) {
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+      res.setHeader('content-type', 'application/json');
+      res.send(200, presentedWeatherData);
       return next();
     })
     .catch(function _failed(error) {
@@ -82,6 +94,6 @@ server.get('/weather/v1/find', function getWeatherByLocationSearch(req, res, nex
 /****************
  * Start Server *
  ****************/
-server.listen(8888, function _serverListenCallback() {
+server.listen(8888, '127.0.0.1', function _serverListenCallback() {
   log.info('%s listening at %s', server.name, server.url);
 });
