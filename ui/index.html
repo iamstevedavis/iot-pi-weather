@@ -1,0 +1,102 @@
+<html>
+  <head>
+  <style>
+    #top {
+      width: 100%;     /* specify a width! */
+      margin: 0 auto; /* center */
+    }
+    table, th, td {
+      text-align: center;
+      color: #FFFFFF;
+      font-size: large;
+    }
+    body {
+      background-color: #000000;
+    }
+    div {
+      text-align: center;
+      font-size: large;
+      color: #FFFFFF;
+    }
+    #location {
+      font-size: xx-large;
+    }
+  </style>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+    var getForecastById = function getForecastById(locId) {
+      var jqxhr = $.ajax("http://127.0.0.1:8888/weather/v1/forecast", {
+        method: 'GET',
+        dataType: "json",
+        contentType : 'application/json',
+        data: {
+          locationId: locId
+        }
+      })
+      .then(function(weatherData) {
+        var cityData = weatherData.city;
+        var currentWeatherData = weatherData.weatherData[0];
+        $("#location").text(cityData.cityName + ", " + cityData.cityCountryCode);
+        $("#conditionsImage").attr("src", currentWeatherData.weatherIcon);
+        $("#temp").text(currentWeatherData.temp);
+        $("#tempHigh").text(currentWeatherData.tempHigh);
+        $("#tempLow").text(currentWeatherData.tempLow);
+        $("#conditionsDescription").text(currentWeatherData.description);
+        $("#humidity").text(currentWeatherData.humidity);
+      })
+      .done();
+    }
+
+    var searchForecast = function searchForecast(searchQuery) {
+      var jqxhr = $.ajax("http://127.0.0.1:8888/weather/v1/find", {
+        method: 'GET',
+        dataType: "json",
+        contentType : 'application/json',
+        data: {
+          q: searchQuery
+        }
+      })
+        .then(function(weatherDataArray) {
+          var currentWeatherData = weatherDataArray.weatherData[0];
+          $("#location").text(searchQuery);
+          $("#conditionsImage").attr("src", currentWeatherData.weatherIcon);
+          $("#temp").text(currentWeatherData.temp);
+          $("#tempHigh").text(currentWeatherData.tempHigh);
+          $("#tempLow").text(currentWeatherData.tempLow);
+          $("#conditionsDescription").text(currentWeatherData.description);
+          $("#humidity").text(currentWeatherData.humidity);
+        })
+        .done();
+    }
+    </script>
+    <title>Weather</title>
+  </head>
+  <body onload="searchForecast('Cambridge, Ontario')">
+    <div id="top">
+      <div id="location"></div>
+      <br />
+      <img id="conditionsImage" src="" alt="">
+      <br />
+      <div id="temp"></div>
+      <br />
+      <table align="center">
+        <tr>
+          <td>Conditions</td>
+          <td id="conditionsDescription"></td>
+        </tr>
+        <tr>
+          <td>High</td>
+          <td id="tempHigh"></td>
+        </tr>
+        <tr>
+          <td>Low</td>
+          <td id="tempLow"></td>
+        </tr>
+        <tr>
+          <td>Humidity</td>
+          <td id="humidity"></td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
